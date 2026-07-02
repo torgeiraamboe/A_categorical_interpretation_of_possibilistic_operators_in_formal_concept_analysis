@@ -1,3 +1,61 @@
 
 
-\section{Theory}
+\section{Category theory and FCA}
+
+Formal concept analysis has attracted interest by category theorists for being a natural and useful application of their abstract tools. Category theory was introduced by Eilenberg and MacLane in \citeme, and is an abstract mathematical theory for understanding compositional structure -- see \citeme for a comprehensive introduction. 
+
+A category consists of \emph{objects} and \emph{morphisms}, which are abstract relationships between objects. Category theory can then be thought of as studying objects by understanding how they relate to all other objects of the same defined type. We will assume that the reader is familiar with basic categorical constructions. 
+
+\subsection{The closure operators}
+
+For a category theorist, the objects $G$ and attributes $M$ can be viewed as discrete categories. A relation between $G$ and $M$ is formalized as a $\2 = \{0,1\}$-valued profunctor $R\: G\nrightarrow M$, see \citeme for details. To construct the associated formal concepts, notice that a the profunctor is by currying equivalent to two functors 
+\[R^{-}\: G\op \to [M, \2] \text{ and } R_{-}\: M \to [G\op, \2].\]
+As $[M,\2]$ is cocomplete and $[G\op, \2]$ is complete, there are unique extensions by (co)Yoneda to functors 
+\begin{center}
+\begin{tikzcd}
+    {[G\op, \2]} \arrow[r, "R^*", yshift=2pt] & {[M, \2]\op} \arrow[l, "R_*", yshift=-2pt]
+\end{tikzcd}
+\end{center}
+which can be shown to be adjoints, see \citeme. As $G$ and $M$ are discrete, the functor categories are precicely the powersets of $G$ and $M$ respectively: $[G\op, \2] = P(G)$ and $[M, \2]\op = P(M)\op$. 
+
+These functors are explicitly given by using categorical ends, meaning that
+\[R^*(A)(m) = \int_{g\in G} \2(A(g), gRm),\]
+and 
+\[R_*(B)(g) = \int_{m\in M} \2B(m), (gRm)\]
+where $A$ and $B$ are presheafs. In $\2$, the internal hom is given by implication, and the end becomes a conjunction 
+\[R^*(A)(m) = \bigwedge_{g\in G}(A(g) \implies gRm).\]
+In other words, for every object $g$, if $g$ belongs to $A$, then $g$ has the property $m$, which is precisely the FCA closure operation $(-)^\Delta = (-)'$ on $P(G)$ as earlier. Similarly one gets the FCA closure operation $(-)_\Delta$ on $P(M)$. 
+
+We can now recognize the formal concepts of $(G,M,R)$ as the fixedpoints of the adjunction $R^*\dashv R_*$, often called the \emph{nucleus} of the profunctor $R$, see \citeme. More formally, the composition $R_*\circ R^*$ is a monad on $P(G)$, and the extents of the formal concepts are the objects in the Eilenberg--Moore category of this monad. Similarly, taking opposite categories gives a monad $R^{*, \mathrm{op}}\circ R_*\op$ on $P(M)$, and its Eilenberg--Moore category gives the intents of the formal concepts. The nucleus consists of pairs of such objects and attributes, i.e., an object in $\mathrm{Nuc}(R)$ is of the form $(A,B)$ where $A = R_*(R*(B))$ and $B=R^{*, \mathrm{op}}(R_*\op(A))$. By adjunction, however, these determine each other, so we can focus only on one of them. 
+
+To summarize, the formal concepts arise completely naturally via simple categorical constructions from the profunctor $R$, via the fixedpoints of the monad $R_*R^*$ on $[G\op, \2]$. 
+
+\subsection{Idempotency and closure}
+
+The operators defining FCA are so-called closure operators on posets. By definition a closure operator is extensive, monotone and idempotent. In the case of an adjunction from a formal context as described in the previous sections, this means that 
+\begin{enumerate}
+    \item $A\subseteq R_*R^*(A)$,
+    \item $A\subseteq A' \implies R_*R^*(A)\subseteq R_*R^*(A')$, and
+    \item $R_*R^*R_*R^*(A) = R_*R^*(A)$, respectively.
+\end{enumerate}
+
+Any adjunction coming from a profunctor from a formal context satisfies all tree of these. By \citeme, the monad $R_*R^*$ is idempotent, and the two other properties follow formally from being $\2$-functors. In fact, any monadic functor on a poset satisfies these, see \citeme.  
+% 2.1.11 in https://academicworks.cuny.edu/cgi/viewcontent.cgi?article=7356&context=gc_etds
+
+In order to be recognized as a FCA closure operator on \emph{some} formal context, these three axioms have to be fulfilled, otherwise the resulting fixedpoints are not formal concepts. The following is rather trivial then, but we state it for reference later. 
+
+\begin{proposition}
+    \label{prop:axioms_for_closure}
+    Let $L\: \C \to \C$ be an endofunctor on a poset. If $L$ fails to be extensive, monotone or idempotent, then there is no formal context $(G,M,R)$ such that $\mathrm{EM}(L) \simeq \mathrm{Nuc}(R)$. 
+\end{proposition}
+
+This result will help us quickly identify which of the asymmetric compositions later possibly could give rise to alternative formal concepts on some related formal context. 
+
+\begin{remark}
+    Dually, given an adjoint pair $L\dashv R$, the composition $LR$ is a comonad. On posets, this comonad satisfies dual properties of the closure operators, called being an \emph{interior} operator. In the case of formal concepts, instead of completing a subset $A$ to a formal concept, i.e., constructing the smallest formal concept containing the set, the interior operator finds the largest formal concept \emph{inside} $A$. 
+\end{remark}
+
+\section{The other operators}
+
+One way to define the functor $R^*$ on $P(G)$ as we did earlier is to recognize it as a right Kan extension. This prompts the idea to also consider the \emph{left} Kan extension, or equivalently the coend-construction instead of the end-construction, as well as the right and left Kan lifts. These, together with the negation operation on the relation $R$, will give us all eight operations described by Dubois--Prade. 
+

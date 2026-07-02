@@ -1,3 +1,23 @@
 
 
 \section{Introduction}
+
+Formal concept analysis (FCA) is a technique for structuring data by associated attributes \citeme, and has during recent years seen a wide array of applications in various contexts \citeme. Given a list of objects, a list of attributes, and a relation describing which object has which attribute, FCA constructs a set of \emph{formal concepts} which are naturally structured into a lattice. 
+
+Formal concepts are constructed as fixedpoints of derivation operations $(-)'$ on the set of objects and attributes. More formally, given a set of objects $G$, a set of attributes $M$ and a relation $R\subseteq G\times M$, one defines for a subset of objects $A\subseteq G$ its \emph{intent}
+\[A' = \{m \in M \mid \forall a\in A, aRm\},\]
+and similarly for a subset of attributes $B\subseteq M$ its \emph{extent}
+\[B' = \{g \in G \mid \forall b\in B, gRb\},\]
+where $xRy$ means that the object $x$ has the attribute $y$. In words, the extent of $A$ is the set of common attributes shared by all of its objects, and the intent of $B$ is the set of objects that have all of its attributes. A formal concept is then a subset $(A,B)\subseteq G\times M$ such that $B=A'$ and $A=B'$, see \citeme for details. 
+
+In \citeme, the authors take inspiration from possibility theory, see \citeme, and introduce additional operators on $G$ and $M$ based on the posibilistic powerset operations introduced by Dubois--Prade in \citeme. Denoting the previous FCA operator by $(-)' = (-)^\Delta$, they further introduce for a subset $A\subseteq G$ the operators 
+\[A^\Pi = \{m \in M \mid \exists a\in A, aRm\},\]
+as well as
+\[A^\nabla = \{m\in M \mid \exists a\not\in A, a\overline{R}m\},\]
+where $\overline{R} = \neg R$ is the negated relation, and finally
+\[A^N = \{m\in M \mid \forall a\in M, aRm \implies a\in A\}.\]
+These are usually called the potential possibility $\Pi$, the guaranteed necessity $N$, the guaranteed possibility $\Delta$ and the potential necessity $\nabla$. One can similarly define these four operators for subsets $B\subseteq M$, which we denote with subscripts, $(-)_\Pi, (-)_N, (-)_\Delta$ and $(-)_\nabla$. 
+
+By design, fixedpoints of $(-)^\Delta\circ (-)_\Delta : P(G) \to P(G)$ are exactly the extents of the formal concepts of the formal context $(G,M,R)$. In \citeme, the authors prove that the fixedpoints for the asymmetric operator composition $(-)^N\circ (-)_\Pi$, which they call $N\Pi$-pairs, are precisely the formal concepts of the complementary formal context $(G,M,\overline{R})$ defined using the negated relation $\overline{R} = \neg R$. They note at the end of the paper that further research should be done to understand the remaining asymmetric operator compositions. 
+
+By using a well established categorical framework for FCA, the first goal of this paper is to prove that the above four operators arise canonically from duals on the underlying relation $R$, rather than from possibility-theoretic considerations. The second goal is to understand the structure of these operators, prove that their relationships come from simple categorical constructions, and classify the fixedpoints of the remaining asymmetric operator compositions.
