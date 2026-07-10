@@ -6,56 +6,246 @@ Formal concept analysis has attracted interest by category theorists for being a
 
 A category consists of \emph{objects} and \emph{morphisms}, which are abstract relationships between objects. Category theory can then be thought of as studying objects by understanding how they relate to all other objects of the same defined type. We will assume that the reader is familiar with basic categorical constructions. 
 
+For a category theorist, the objects $G$ and attributes $M$ can be viewed as discrete categories. Any relation can be described as a $\2 = \{0,1\}$-valued profunctor, also called \emph{boolean} profunctors. In our case the profunctor $R\: G\nrightarrow M$ is a functor $G\op\times M\to \2$, which takes a pair $(g,m)$ to $1$ if $g$ has the attribute $m$ -- see \citeme for details. This will be our running definition of a formal context. 
+
+\begin{definition}
+    A \emph{formal context} $(G,M,R)$ consists of two discrete categories $G$ and $M$ and a boolean profunctor $R\: G\nrightarrow M$. 
+\end{definition}
+
+From this perspective we can also produce the formal concepts associated to any formal context. 
+
 \subsection{The closure operators}
 
-For a category theorist, the objects $G$ and attributes $M$ can be viewed as discrete categories. A relation between $G$ and $M$ is formalized as a $\2 = \{0,1\}$-valued profunctor $R\: G\nrightarrow M$, see \citeme for details. To construct the associated formal concepts, notice that a the profunctor is by currying equivalent to two functors 
-\[R^{-}\: G\op \to [M, \2] \text{ and } R_{-}\: M \to [G\op, \2].\]
-As $[M,\2]$ is cocomplete and $[G\op, \2]$ is complete, there are unique extensions by (co)Yoneda to functors 
+Fix a formal context $(G,M,R)$. To construct the associated formal concepts, notice that a the profunctor $R$ is by currying equivalent to two functors 
+\[R^{-}\: G \to [M, \2]\op \text{ and } R_{-}\: M \to [G\op, \2].\]
+We also have two Yoneda embeddings, giving a diagram
 \begin{center}
 \begin{tikzcd}
-    {[G\op, \2]} \arrow[r, "R^*", yshift=2pt] & {[M, \2]\op} \arrow[l, "R_*", yshift=-2pt]
+G \arrow[r, "R^{-}"] \arrow[d, "y"'] & {[M,\2]\op} \\
+{[G\op, \2]} & M \arrow[l, "R_{-}"] \arrow[u, "cy"']       
 \end{tikzcd}
 \end{center}
-which can be shown to be adjoints, see \citeme. As $G$ and $M$ are discrete, the functor categories are precicely the powersets of $G$ and $M$ respectively: $[G\op, \2] = P(G)$ and $[M, \2]\op = P(M)\op$. 
+where $y$ is the Yoneda embedding and $cy$ is the Yoneda coembedding into the presheaf and opcopresheaf categories respectively. As $G$ and $M$ are discrete, the functor categories are precicely the powersets of $G$ and $M$ respectively: $[G\op, \2] = P(G)$ and $[M, \2]\op = P(M)\op$. 
 
-These functors are explicitly given by using categorical ends, meaning that
-\[R^*(A)(m) = \int_{g\in G} \2(A(g), gRm),\]
-and 
-\[R_*(B)(g) = \int_{m\in M} \2B(m), (gRm)\]
-where $A$ and $B$ are presheafs. In $\2$, the internal hom is given by implication, and the end becomes a conjunction 
-\[R^*(A)(m) = \bigwedge_{g\in G}(A(g) \implies gRm).\]
-In other words, for every object $g$, if $g$ belongs to $A$, then $g$ has the property $m$, which is precisely the FCA closure operation $(-)^\Delta = (-)'$ on $P(G)$ as earlier. Similarly one gets the FCA closure operation $(-)_\Delta$ on $P(M)$. 
+As $[G\op, \2]$ is complete, there is a unique colimit preserving right Kan extension $R^*$ of $R^-$ along the Yoneda embedding $y$, which we claim is the standard FCA closure on $P(G)$. 
 
-We can now recognize the formal concepts of $(G,M,R)$ as the fixedpoints of the adjunction $R^*\dashv R_*$, often called the \emph{nucleus} of the profunctor $R$, see \citeme. More formally, the composition $R_*\circ R^*$ is a monad on $P(G)$, and the extents of the formal concepts are the objects in the Eilenberg--Moore category of this monad. Similarly, taking opposite categories gives a monad $R^{*, \mathrm{op}}\circ R_*\op$ on $P(M)$, and its Eilenberg--Moore category gives the intents of the formal concepts. The nucleus consists of pairs of such objects and attributes, i.e., an object in $\mathrm{Nuc}(R)$ is of the form $(A,B)$ where $A = R_*(R*(B))$ and $B=R^{*, \mathrm{op}}(R_*\op(A))$. By adjunction, however, these determine each other, so we can focus only on one of them. 
+\begin{lemma}
+    \label{lm:upper-Delta}
+    The right Kan extension $R^*$ of $R^-$ is the standard FCA closure operator $(-)^\Delta$. 
+\end{lemma}
+\begin{proof}
+    The functor $R^*$ is given explicitly by using a categorical end-formula, which for a presheaf $A\in [G\op, \2]$ is
+    \[R^*(A)(m) = \int_{g\in G} \2(A(g), gRm).\]
+    In $\2$, the internal hom is given by \emph{implication}, and the above end-formula is computed pointwise, reducing it to the conjunction 
+    \[R^*(A)(m) = \bigwedge_{g\in G}(A(g) \implies gRm).\]
+    In other words, having $m\in R^*(A)$ is equivalent to having that for all $g$, if $g\in A$ then $g$ has the attribute $m$. This is precisely the FCA closure operation $(-)^\Delta = (-)'$ on $P(G)$ as defined earlier. 
+\end{proof}
 
-To summarize, the formal concepts arise completely naturally via simple categorical constructions from the profunctor $R$, via the fixedpoints of the monad $R_*R^*$ on $[G\op, \2]$. 
+Similarly, the other curried functor $R_{-}$ has a right Kan extension $R_*$ along the coYoneda embedding $cY\: M\to [M,\2]\op$, which we claim is the other standard FCA closure operation. 
+
+\begin{lemma}
+    \label{lm:lower-Delta}
+    The right Kan extension $R_*$ of $R_-$ is the standard FCA closure operator $(-)_\Delta$. 
+\end{lemma}
+\begin{proof}
+    The proof is completely analagous to \cref{lm:upper-Delta}, as the right Kan extension has the formula,
+    \[R_*(B)(g)=\int_{m\in M}\2(B(m), gRm).\]
+    Hence, the same argument works and we recognize $R_*$ as $(-)_\Delta$.
+\end{proof}
+
+These two functors are not unrelated, but form an adjoint pair on the powerset categories. 
+
+\begin{lemma}
+    \label{lm:adjoint-Delta}
+    The two operators $R^*$ and $R_*$ form an adjoint pair
+    \begin{center}
+    \begin{tikzcd}
+    {[G\op, \2]} \arrow[r, "R^*", yshift=2pt] & {[M, \2]\op} \arrow[l, "R_*", yshift=-2pt].
+    \end{tikzcd}
+    \end{center}
+\end{lemma}
+\begin{proof}
+    First, as $R^*$ preserves colimits, it has a right adjoint. For this adjoint to be $R_*$ we need to show that for any $A\in [G\op, \2]$ and $B\in [M, \2]\op$, we have $R^*(A)\subseteq B$ if and only if $A\subseteq R_*(B)$. 
+
+    By the definition of $R^*$, we have $R^*(A)\subseteq B$ if and only if for all $m\in M$, 
+    \[\bigwedge_{g\in G}(A(g)\implies gRm)\subseteq B(m).\]
+    In $\2$, the join is the universal, hence this is equivalent to the statement that 
+    \[\forall m\in M, \forall g\in G (A(g)\implies gRm) \subseteq B(m).\]
+    This is again equivalent to 
+    \[\forall g\in G, A(g) \subseteq \forall m\in M (B(m) \implies gRm).\]
+    which we recognize as 
+    \[\forall g\in G, A(g) \subseteq \bigwedge_{m\in M} (B(m) \implies gRm),\]
+    which by the defintion of $R_*$ is the statement $A\subseteq R_*(B)$, finishing the proof. 
+\end{proof}
+
+We can now, as is standard in categorical FCA, recognize the formal concepts of $(G,M,R)$ as the fixedpoints of the adjunction $R^*\dashv R_*$, often called the \emph{nucleus} of the profunctor $R$, see \citeme. 
+
+More formally, the composition $R_*\circ R^*$ is a monad on $P(G)$, and the extents of the formal concepts are the objects in the Eilenberg--Moore category of this monad. Similarly, taking opposite categories gives a monad $R^{*, \mathrm{op}}\circ R_*\op$ on $P(M)$, and its Eilenberg--Moore category gives the intents of the formal concepts. The nucleus consists of pairs of such objects and attributes, i.e., an object in $\mathrm{Nuc}(R)$ is of the form $(A,B)$ where $A = R_*(R*(B))$ and $B=R^{*, \mathrm{op}}(R_*\op(A))$. By adjunction, however, these determine each other, so we can focus only on one of them, choosing throughout the paper to focus on the object side. 
+
+To summarize, the formal concepts arise completely naturally via simple categorical constructions from the profunctor $R$, via the fixedpoints of the monad $R_*R^*$ on $[G\op, \2]$, defined using right Kan extensions of the two associated curryings. 
 
 \subsection{Idempotency and closure}
 
-The operators defining FCA are so-called closure operators on posets. By definition a closure operator is extensive, monotone and idempotent. In the case of an adjunction from a formal context as described in the previous sections, this means that 
+The operator defining the objects of the formal concepts is a so-called closure operator on posets. By definition, a closure operator is extensive, monotone and idempotent. In the case of an adjunction from a formal context as described in the previous sections, this means that 
 \begin{enumerate}
     \item $A\subseteq R_*R^*(A)$,
     \item $A\subseteq A' \implies R_*R^*(A)\subseteq R_*R^*(A')$, and
     \item $R_*R^*R_*R^*(A) = R_*R^*(A)$, respectively.
 \end{enumerate}
 
-Any adjunction coming from a profunctor from a formal context satisfies all tree of these. By \citeme, the monad $R_*R^*$ is idempotent, and the two other properties follow formally from being $\2$-functors. In fact, any monadic functor on a poset satisfies these, see \citeme.  
+Any adjunction coming from a profunctor from a formal context satisfies all tree of these. By \citeme, the monad $R_*R^*$ is idempotent, and the two other properties follow formally by the adjunction unit and the fact that it is a functor on posets. Thus, any monadic functor on a poset satisfies these, see \citeme.  
 % 2.1.11 in https://academicworks.cuny.edu/cgi/viewcontent.cgi?article=7356&context=gc_etds
 
-In order to be recognized as a FCA closure operator on \emph{some} formal context, these three axioms have to be fulfilled, otherwise the resulting fixedpoints are not formal concepts. The following is rather trivial then, but we state it for reference later. 
+In order to be recognized as a FCA closure operator on \emph{some} formal context, these three axioms have to be fulfilled, otherwise the resulting fixedpoints are not formal concepts. The following is rather trivial then, but we state it for reference later.
 
 \begin{proposition}
     \label{prop:axioms_for_closure}
     Let $L\: \C \to \C$ be an endofunctor on a poset. If $L$ fails to be extensive, monotone or idempotent, then there is no formal context $(G,M,R)$ such that $\mathrm{EM}(L) \simeq \mathrm{Nuc}(R)$. 
 \end{proposition}
 
-This result will help us quickly identify which of the asymmetric compositions later possibly could give rise to alternative formal concepts on some related formal context. 
+This result will help us quickly identify which of the asymmetric compositions later possibly could give rise to alternative formal concepts on some related formal context. However, satisfying these three properties does not, as far as we know, guarantee that the fixedpoints form the formal concept of some formal context. 
 
 \begin{remark}
     Dually, given an adjoint pair $L\dashv R$, the composition $LR$ is a comonad. On posets, this comonad satisfies dual properties of the closure operators, called being an \emph{interior} operator. In the case of formal concepts, instead of completing a subset $A$ to a formal concept, i.e., constructing the smallest formal concept containing the set, the interior operator finds the largest formal concept \emph{inside} $A$. 
 \end{remark}
 
-\section{The other operators}
+\section{Two more operators}
 
-One way to define the functor $R^*$ on $P(G)$ as we did earlier is to recognize it as a right Kan extension. This prompts the idea to also consider the \emph{left} Kan extension, or equivalently the coend-construction instead of the end-construction, as well as the right and left Kan lifts. These, together with the negation operation on the relation $R$, will give us all eight operations described by Dubois--Prade. 
+Above we defined the functors $R^*$ and $R_*$ as the right Kan extensions of the two curried functors $R^-$ and $R_-$ along the respective Yoneda embeddings. This prompts the idea to also consider the \emph{left} Kan extensions. This will give us another two of the eight operations described by Dubois--Prade. 
+
+\begin{lemma}
+    \label{lm:upper-Pi}
+    Given a formal context $R\: G\nrightarrow M$, the left Kan extension $R_!$ of the functor $R^-$ coincides with the possibilistic operator $(-)^\Pi$.  
+\end{lemma}
+\begin{proof}
+    For the functor $R^-$, the left Kan extension is defined by the coend formula
+    \[R_!(A)(m) = \int^{g\in G}(A(g)\otimes gRm).\]
+    The monoidal structure in $\2$ is the \emph{and} operation, and as $[M,\2]\op$ is a complete lattice, the coend is the disjunction
+    \[R_!(A)(m) = \bigvee_{g\in G}(A(G)\wedge gRm).\]
+    In words, we have $m\in R_!(A)$ if and only if there is some $g\in A$ such that $g$ has the attribute $m$, which is precicely the definition of the operator $(-)^\Pi$.
+\end{proof}
+
+Similar to before, we also have the left Kan extension of the other curried functor $R_-$. But, as one perhaps should expect from \citeme, this is not $(-)_\Pi$ -- it is rather the possibilistic operator $(-)_N$. 
+
+\begin{lemma}
+    \label{lm:lower-N}
+    The left Kan extension $R^!$ of the functor $R_-$ coincides with the possibilistic operator $(-)_N$. 
+\end{lemma}
+\begin{proof}
+    As for $R_!$, the left Kan extension is given by
+    \[R^!(B)(g) = \int^{m\in M}(B(m)\otimes gRm).\]
+\end{proof}
+
+As for the other pair of functors $R^*$ and $R_*$, these also form an adjoint pair. 
+
+\begin{lemma}
+    \label{lm:adjoint-Pi-N}
+    The left Kan extensions $R_!$ and $R^!$ of the two curried functors $R^-$ and $R_-$ form an adjoint pair
+    \begin{center}
+    \begin{tikzcd}
+    {[G\op, \2]} \arrow[r, "R_!", yshift=2pt] & {[M, \2]\op} \arrow[l, "R^!", yshift=-2pt].
+    \end{tikzcd}
+    \end{center}
+\end{lemma}
+\begin{proof}
+    Since $R_!$ preserves all joins, it has a right adjoint. For this to be recognized as $R^!$ we need to show that for all $A\in [G\op,\2]$ and $B\in [M,\2]\op$ we have $A\subseteq R^!(B)$ if and only if $R_!(A)\subseteq B$. 
+    
+    By definition, holds if and only if for all $m\in M$ we have $\bigvee_g(A(g)\wedge gRm)\implies B(m)$, which holds if and only if for all $g\in G$ we have that if $g$ is in $A$, then $\bigwedge_m(gRm \implies B(m))$. This, we recognize as the definition of $(-)_N$, finishing the proof. 
+\end{proof}
+
+
+\subsection{The complement profunctor}
+
+For any boolean profunctor $R$ one can also define a negated boolean profunctor $\oR\: G\op\times M \to \2$, defined by $g\oR m := \neg gRm$. This defines the \emph{complement} formal context $(G,M,\oR)$ as discussed in \citeme. 
+
+As $\oR$ is a boolean profunctor in its own right, it also has two adjoint pairs, $\oR^*\vdash \oR_*$ and $\oR_!\vdash \oR^!$, coming from the left and right Kan extension as in \cref{lm:adjoint-Delta} and \cref{lm:adjoint-Pi-N}. We claim that these give rise to the remaining four possibilistic operators via a duality between operators on $(G,M,R)$ and operators on the complement context $(G,M,\oR)$.
+
+The negation operator $\neg$ gives a natural duality operator on the presheaf category
+\[\neg\: [G\op, \2]\to [G\op,\2]\op\]
+defined by $(\neg A)(g) = \neg (A(g))$ \citeme. Any presheaf is in our case equivalent to a subset $A\subseteq G$, and the corresponding subset $\neg A$ is precicely all those $g$ not contained in $A$, also called its \emph{complement}. This also explains the contravariancy, as the complement flips the direction of inclusions of subsets. We have a completely analagous duality on $[M,\2]\op$, which we also denote $\neg$ for simplicity. 
+
+Taking this negation dual twice is an equivalence, meaning $\neg$ is an \emph{involution}. Given an operator $F$ on $P(G)$, we will call precomposing with the complement operator the \emph{complement dual} of $F$, and denote it $F\neg$.  
+
+\begin{lemma}
+    \label{lm:upper-N}
+    The complement dual of the operator $\oR^*$ coincides with the possibilistic operator $(-)^N$. 
+\end{lemma}
+\begin{proof}
+    By defintion, the functor is given pointwise by 
+    \[\oR^*(\neg A)(m) = \bigwedge_{g\in G}(\neg A(g)\implies g\oR m).\] 
+    Using the boolean equivalence 
+    \[P\implies Q \iff \neg P \vee Q,\]
+    which gives 
+    \[\oR^*(\neg A)(m) = \bigwedge_{g\in G}(A(g)\vee g\oR m).\]
+    Now, we can apply the fact that $\neg R = \oR$ together with the above boolean equivalence in reverse, which gives
+    \[\oR^*(\neg A)(m) = \bigwedge_{g\in G}(gRm \implies A(g)),\]
+    which is the definition of $(-)^N$. 
+\end{proof}
+
+Similarly, for the Kan extension of the other curried functor $\oR_-$ we obtain the operator $(-)_\Pi$.
+
+\begin{lemma}
+    \label{lm:lower-Pi}
+    The left dual $\neg\oR_*$ of the right Kan extension of the curried functor $\oR_-$, coincides with the possibilistic operator $(-)_\Pi$.
+\end{lemma}
+\begin{proof}
+    By defintion we have
+    \[\neg \oR_*(B)(g) = \neg \bigwedge_{m\in M}(B(m)\implies g\oR m),\]
+    which by the boolean equivalence 
+    \[P\implies \neg Q \iff \neg P\vee \neg Q\]
+    gives 
+    \[\neg \oR_*(\neg B)(g) = \neg \bigwedge_{m\in M}(k\neg B(m)\vee \neg gRm).\]
+    Using De Morgan duality we have 
+    \[\neg \oR_*(B)(g) = \bigvee_{m\in M}(B(m)\wedge gRm),\]
+    which is the definition of $(-)_\Pi$. 
+\end{proof}
+
+From this we automatically obtain one of the main results from \citeme.
+
+\begin{corollary}
+    The fixedpoints of the asymmetric composition $(-)_\Pi\circ (-)^N$ gives the formal concepts of the complement context $(G,M,\oR)$.
+\end{corollary}
+\begin{proof}
+    The composition $(-)_\Pi\circ (-)^N$ is by \cref{lm:upper-N} and \cref{lm:lower-Pi} equivalent to $\neg \oR^* \circ \oR_* \neg$, which takes any subset $A$ to its complement, forms the formal concept, and takes the complement to the original lattice. The fixedpoints are then precicely the formal concepts in the complement lattice. 
+\end{proof}
+
+Now we have but two operators left, which arise from the two left Kan extensions associated to the two curryings of $\oR$. The proofs are essentially just using the defintions of the operators. 
+
+\begin{lemma}
+    \label{lm:upper-nabla}
+    The right complement dual $\oR_!\neg$ of the left Kan extension of the curried functor $\oR^-$, is equivalent to the possibilistic operator $(-)^\nabla$.
+\end{lemma}
+\begin{proof}
+    By definition we have 
+    \[\oR_!(\neg A)(m)=\bigvee_{g\in G} (\neg A(g)\wedge g\oR m).\]
+    which we immediately recognize as the operator $(-)^\nabla$.   
+\end{proof}
+
+\begin{lemma}
+    \label{lm:lower-nabla}
+    The right complement dual $\oR^!\neg$ of the left Kan extension of the curried functor $\oR_-$, is equivalent to the possibilistic operator $(-)_\nabla$.
+\end{lemma}
+\begin{proof}
+    The proof is the same as \cref{lm:upper-nabla}. 
+\end{proof}
+
+To summarize then, we have four pairs of adjoint functors, arising from two boolean profunctors. This gives \cref{tab:lan-ran}, where we have denoted operators as either a right Kan extension (Ran) or a left Kan extension (Lan) and omitted the complement duals. Each horisontal pair is an adjoint pair as involutions preserve adjoints \citeme.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{l|ll}
+& Ran & Lan\\
+\hline
+$R^-$ & $(-)^\Delta$ & $(-)_\Delta$ \\
+$R_-$ & $(-)^\Pi$    & $(-)_N$  \\
+$\oR^-$ & $(-)^N$    & $(-)_\Pi$  \\
+$\oR_-$ & $(-)^\nabla$ & $(-)_\nabla$
+\end{tabular}
+\caption{Possibilistic operators as Kan extensions}
+\label{tab:lan-ran}
+\end{table}
+ 
+
+
+
 

@@ -1,0 +1,60 @@
+\section{Compositions}
+
+We have now constructed the eight possibilistic operators in formal concept analysis, as introduced in \citeme, by simple categorical constructions associated to the underlying boolean profunctor $R\: G \nrightarrow G$, and proven that these are interconnected by De Morgan dualities. It remains then, to study the different possible compositions of upper-case and lower-case possibilistic operators -- of particular interest are the asymmetric compositions. 
+
+Given our eight operators, there are $16$ possible compositions that produce an endofunctor on $[G\op, \2]$. As we only consider endofunctors on $[G\op, \2]$ -- the ones on $[M,\2]\op$ are completely analagous -- we will use the combined notation $(-)^\sigma \circ (-)_\rho := (-)^\sigma_\rho$ for simplicity. We then get the following table of compositions:
+
+\[
+\begin{array}{c|cccc}
+ & (-)_\Pi & (-)_\Delta & (-)_N & (-)_\nabla \\ \hline
+(-)^\Pi
+    & (-)^\Pi_\Pi
+    & (-)^\Pi_\Delta
+    & (-)^\Pi_N
+    & (-)^\Pi_\nabla \\[0.3em]
+
+(-)^\Delta
+    & (-)^\Delta_\Pi
+    & (-)^\Delta_\Delta
+    & (-)^\Delta_N
+    & (-)^\Delta_\nabla \\[0.3em]
+
+(-)^N
+    & (-)^N_\Pi
+    & (-)^N_\Delta
+    & (-)^N_N
+    & (-)^N_\nabla \\[0.3em]
+
+(-)^\nabla
+    & (-)^\nabla_\Pi
+    & (-)^\nabla_\Delta
+    & (-)^\nabla_N
+    & (-)^\nabla_\nabla
+\end{array}
+\]
+
+By our construction of the operators we have two adjunctions associated to the profunctor $R$. We have the FCA closure adjunction,
+\begin{center}
+\begin{tikzcd}
+{[G\op, \2]} \arrow[r, yshift = 2pt, "(-)^\Delta"] & {[M,\2]\op} \arrow[l, yshift = -2pt, "(-)_\Delta"]
+\end{tikzcd}
+\end{center}
+defined by the right Kan extension, and we have the adjunction defined by the left Kan extension,
+\begin{center}
+\begin{tikzcd}
+{[G\op, \2]} \arrow[r, yshift = 2pt, "(-)^\Pi"] & {[M,\2]\op} \arrow[l, yshift = -2pt, "(-)_N"].
+\end{tikzcd}
+\end{center}
+We also have the two adjunctions associated to the complement profunctor $\oR\: G\to M$: 
+\begin{center}
+\begin{tikzcd}
+{[G\op, \2]} \arrow[r, yshift = 2pt, "(-)^\nabla"] & {[M,\2]\op} \arrow[l, yshift = -2pt, "(-)_\nabla"].
+\end{tikzcd}
+\end{center}
+and 
+\begin{center}
+\begin{tikzcd}
+{[G\op, \2]} \arrow[r, yshift = 2pt, "(-)^N"] & {[M,\2]\op} \arrow[l, yshift = -2pt, "(-)_\Pi"].
+\end{tikzcd}
+\end{center}
+
