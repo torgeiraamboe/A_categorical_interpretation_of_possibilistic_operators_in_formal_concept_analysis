@@ -9,7 +9,7 @@ A category consists of \emph{objects} and \emph{morphisms}, which are abstract r
 For a category theorist, the objects $G$ and attributes $M$ can be viewed as discrete categories. Any relation can be described as a $\2 = \{0,1\}$-valued profunctor, also called \emph{boolean} profunctors. In our case the profunctor $R\: G\nrightarrow M$ is a functor $G\op\times M\to \2$, which takes a pair $(g,m)$ to $1$ if $g$ has the attribute $m$ -- see \citeme for details. This will be our running definition of a formal context. 
 
 \begin{definition}
-    A \emph{formal context} $(G,M,R)$ consists of two discrete categories $G$ and $M$ and a boolean profunctor $R\: G\nrightarrow M$. 
+    A \emph{formal context} $(G,M,R)$ consists of two discrete categories $G$ and $M$ and a boolean profunctor $R\: G\nrightarrow M$. We will say an object $g\in G$ has attribute $m\in M$ if $R(g,m)=1$, usually written $gRm$. 
 \end{definition}
 
 From this perspective we can also produce the formal concepts associated to any formal context. 
@@ -84,31 +84,6 @@ More formally, the composition $R_*\circ R^*$ is a monad on $P(G)$, and the exte
 
 To summarize, the formal concepts arise completely naturally via simple categorical constructions from the profunctor $R$, via the fixedpoints of the monad $R_*R^*$ on $[G\op, \2]$, defined using right Kan extensions of the two associated curryings. 
 
-\subsection{Idempotency and closure}
-
-The operator defining the objects of the formal concepts is a so-called closure operator on posets. By definition, a closure operator is extensive, monotone and idempotent. In the case of an adjunction from a formal context as described in the previous sections, this means that 
-\begin{enumerate}
-    \item $A\subseteq R_*R^*(A)$,
-    \item $A\subseteq A' \implies R_*R^*(A)\subseteq R_*R^*(A')$, and
-    \item $R_*R^*R_*R^*(A) = R_*R^*(A)$, respectively.
-\end{enumerate}
-
-Any adjunction coming from a profunctor from a formal context satisfies all tree of these. By \citeme, the monad $R_*R^*$ is idempotent, and the two other properties follow formally by the adjunction unit and the fact that it is a functor on posets. Thus, any monadic functor on a poset satisfies these, see \citeme.  
-% 2.1.11 in https://academicworks.cuny.edu/cgi/viewcontent.cgi?article=7356&context=gc_etds
-
-In order to be recognized as a FCA closure operator on \emph{some} formal context, these three axioms have to be fulfilled, otherwise the resulting fixedpoints are not formal concepts. The following is rather trivial then, but we state it for reference later.
-
-\begin{proposition}
-    \label{prop:axioms_for_closure}
-    Let $L\: \C \to \C$ be an endofunctor on a poset. If $L$ fails to be extensive, monotone or idempotent, then there is no formal context $(G,M,R)$ such that $\mathrm{EM}(L) \simeq \mathrm{Nuc}(R)$. 
-\end{proposition}
-
-This result will help us quickly identify which of the asymmetric compositions later possibly could give rise to alternative formal concepts on some related formal context. However, satisfying these three properties does not, as far as we know, guarantee that the fixedpoints form the formal concept of some formal context. 
-
-\begin{remark}
-    Dually, given an adjoint pair $L\dashv R$, the composition $LR$ is a comonad. On posets, this comonad satisfies dual properties of the closure operators, called being an \emph{interior} operator. In the case of formal concepts, instead of completing a subset $A$ to a formal concept, i.e., constructing the smallest formal concept containing the set, the interior operator finds the largest formal concept \emph{inside} $A$. 
-\end{remark}
-
 \section{Two more operators}
 
 Above we defined the functors $R^*$ and $R_*$ as the right Kan extensions of the two curried functors $R^-$ and $R_-$ along the respective Yoneda embeddings. This prompts the idea to also consider the \emph{left} Kan extensions. This will give us another two of the eight operations described by Dubois--Prade. 
@@ -133,7 +108,15 @@ Similar to before, we also have the left Kan extension of the other curried func
 \end{lemma}
 \begin{proof}
     As for $R_!$, the left Kan extension is given by
-    \[R^!(B)(g) = \int^{m\in M}(B(m)\otimes gRm).\]
+    \[R^!(B)(g) = \int^{m\in M}(B(m)\otimes gRm),\]
+    which is equivalent to 
+    \[R^!(B)(g)=\bigvee_{m\in M}B(m)\wedge gRm.\]
+    Using the boolean equivalence
+    \[P\implies Q \iff \neg(P\wedge \neg Q)\]
+    we get 
+    \[R^!(B)(g)=\bigvee_{m\in M}\neg(B(m)\implies \neg gRm),\]
+    which by De Morgan duality and the fact that $\neg gRm = r\oR m$, gives
+    \[R^!(B)(g)=\neg\bigwedge_{m\in M}(B(m)\implies g\oR m).\]
 \end{proof}
 
 As for the other pair of functors $R^*$ and $R_*$, these also form an adjoint pair. 
@@ -156,7 +139,7 @@ As for the other pair of functors $R^*$ and $R_*$, these also form an adjoint pa
 
 \subsection{The complement profunctor}
 
-For any boolean profunctor $R$ one can also define a negated boolean profunctor $\oR\: G\op\times M \to \2$, defined by $g\oR m := \neg gRm$. This defines the \emph{complement} formal context $(G,M,\oR)$ as discussed in \citeme. 
+For any boolean profunctor $R$ one can also define is \emph{complement} $\oR\: G\op\times M \to \2$, defined by $g\oR m := \neg gRm$. This defines the \emph{complement} formal context $(G,M,\oR)$ as discussed in \citeme. 
 
 As $\oR$ is a boolean profunctor in its own right, it also has two adjoint pairs, $\oR^*\vdash \oR_*$ and $\oR_!\vdash \oR^!$, coming from the left and right Kan extension as in \cref{lm:adjoint-Delta} and \cref{lm:adjoint-Pi-N}. We claim that these give rise to the remaining four possibilistic operators via a duality between operators on $(G,M,R)$ and operators on the complement context $(G,M,\oR)$.
 
@@ -164,11 +147,11 @@ The negation operator $\neg$ gives a natural duality operator on the presheaf ca
 \[\neg\: [G\op, \2]\to [G\op,\2]\op\]
 defined by $(\neg A)(g) = \neg (A(g))$ \citeme. Any presheaf is in our case equivalent to a subset $A\subseteq G$, and the corresponding subset $\neg A$ is precicely all those $g$ not contained in $A$, also called its \emph{complement}. This also explains the contravariancy, as the complement flips the direction of inclusions of subsets. We have a completely analagous duality on $[M,\2]\op$, which we also denote $\neg$ for simplicity. 
 
-Taking this negation dual twice is an equivalence, meaning $\neg$ is an \emph{involution}. Given an operator $F$ on $P(G)$, we will call precomposing with the complement operator the \emph{complement dual} of $F$, and denote it $F\neg$.  
+Taking this negation dual twice is an equivalence, meaning $\neg$ is an \emph{involution}. Given an operator $F$ on $P(G)$, we will call precomposing with the complement operator the \emph{right dual} of $F$, and denote it $F\neg$. Similarly we define the \emph{left dual} to be $\neg F$. 
 
 \begin{lemma}
     \label{lm:upper-N}
-    The complement dual of the operator $\oR^*$ coincides with the possibilistic operator $(-)^N$. 
+    The right dual of the operator $\oR^*$ coincides with the possibilistic operator $(-)^N$. 
 \end{lemma}
 \begin{proof}
     By defintion, the functor is given pointwise by 
@@ -200,20 +183,20 @@ Similarly, for the Kan extension of the other curried functor $\oR_-$ we obtain 
     which is the definition of $(-)_\Pi$. 
 \end{proof}
 
-From this we automatically obtain one of the main results from \citeme.
+From this we automatically obtain one of the main results from \citeme. The categorical viewpoint reveals exactly why this results appears, which was one of our motivations for this paper. 
 
 \begin{corollary}
     The fixedpoints of the asymmetric composition $(-)_\Pi\circ (-)^N$ gives the formal concepts of the complement context $(G,M,\oR)$.
 \end{corollary}
 \begin{proof}
-    The composition $(-)_\Pi\circ (-)^N$ is by \cref{lm:upper-N} and \cref{lm:lower-Pi} equivalent to $\neg \oR^* \circ \oR_* \neg$, which takes any subset $A$ to its complement, forms the formal concept, and takes the complement to the original lattice. The fixedpoints are then precicely the formal concepts in the complement lattice. 
+    The composition $(-)_\Pi\circ (-)^N$ is by \cref{lm:upper-N} and \cref{lm:lower-Pi} equivalent to $\neg \oR_* \circ \oR^* \neg$, which takes any subset $A$ to its complement, forms the formal concept -- in $[G\op,\2]\op$ the composition of the two functors changes order, and hence really gives the formal concept -- and finally takes the complement to the original lattice. The fixedpoints are then precicely the formal concepts in the complement lattice. 
 \end{proof}
 
 Now we have but two operators left, which arise from the two left Kan extensions associated to the two curryings of $\oR$. The proofs are essentially just using the defintions of the operators. 
 
 \begin{lemma}
     \label{lm:upper-nabla}
-    The right complement dual $\oR_!\neg$ of the left Kan extension of the curried functor $\oR^-$, is equivalent to the possibilistic operator $(-)^\nabla$.
+    The right dual $\oR_!\neg$ of the left Kan extension of the curried functor $\oR^-$, is equivalent to the possibilistic operator $(-)^\nabla$.
 \end{lemma}
 \begin{proof}
     By definition we have 
@@ -223,27 +206,101 @@ Now we have but two operators left, which arise from the two left Kan extensions
 
 \begin{lemma}
     \label{lm:lower-nabla}
-    The right complement dual $\oR^!\neg$ of the left Kan extension of the curried functor $\oR_-$, is equivalent to the possibilistic operator $(-)_\nabla$.
+    The right dual $\oR^!\neg$ of the left Kan extension of the curried functor $\oR_-$, is equivalent to the possibilistic operator $(-)_\nabla$.
 \end{lemma}
 \begin{proof}
     The proof is the same as \cref{lm:upper-nabla}. 
 \end{proof}
 
-To summarize then, we have four pairs of adjoint functors, arising from two boolean profunctors. This gives \cref{tab:lan-ran}, where we have denoted operators as either a right Kan extension (Ran) or a left Kan extension (Lan) and omitted the complement duals. Each horisontal pair is an adjoint pair as involutions preserve adjoints \citeme.
+To summarize then, we have four pairs of adjoint functors, arising from two boolean profunctors. This gives \cref{tab:lan-ran}, where we have denoted operators as either a right Kan extension (Ran) or a left Kan extension (Lan) and omitted the duals. 
 
 \begin{table}[ht]
 \centering
 \begin{tabular}{l|ll}
 & Ran & Lan\\
 \hline
-$R^-$ & $(-)^\Delta$ & $(-)_\Delta$ \\
-$R_-$ & $(-)^\Pi$    & $(-)_N$  \\
-$\oR^-$ & $(-)^N$    & $(-)_\Pi$  \\
-$\oR_-$ & $(-)^\nabla$ & $(-)_\nabla$
+$R^-$   & $(-)^\Delta$ & $(-)^\Pi$ \\
+$R_-$   & $(-)_\Delta$ & $(-)_N$  \\
+$\oR^-$ & $(-)^N$      &  $(-)^\nabla$ \\
+$\oR_-$ & $(-)_\Pi$    & $(-)_\nabla$
 \end{tabular}
 \caption{Possibilistic operators as Kan extensions}
 \label{tab:lan-ran}
 \end{table}
+
+
+
+\subsection{Properties}
+
+In \citeme, several properties and relations between the eight possibilistic operators were proven. In this section we reprove these from standard categorical properties. First, however, we prove that this categorical perspective also recovers the De Morgan dualities between these eight operators, as is their usual classical definitions in possibility theory -- the necessity is usually defined as $N(A) = 1-\Pi(\neg A)$, and similarly, $\nabla(A)=1-\Delta(\neg A)$. 
+
+\begin{lemma}
+    \label{lm:De-Morgan-duality}
+    The four adjoint pairs of operators are related by De Morgan dualities: $(-)^N = \neg (-)^\Pi \neg$ and $(-)^\nabla = \neg (-)^\Delta \neg$, and similarly for the lower-case operators. 
+\end{lemma}
+\begin{proof}
+    We only prove the first relation, as the others follow by symmetry. 
+
+    Let $A\in [G\op, \2]$ be a presheaf. By definition we have 
+    \[\oR^*(A)(m) = \bigwedge_{g\in G}(A(g)\implies g\oR m).\]
+    Using $g \oR m = \neg gRm$ and the boolean equivalence 
+    \[P\implies \neg Q \iff \neg (P\wedge Q),\]
+    we have 
+    \[\oR^*(A)(m) = \bigwedge_{g\in G}\neg (A(g)\wedge g R m).\]
+    This is, by De Morgan duality \citeme, equivalent to 
+    \[\oR^*(A)(m) = \neg\bigvee_{g\in G}(A(g)\wedge g R m),\]
+    which we can recognize as $\neg R_!$. 
+
+    By \cref{lm:upper-N} and \cref{lm:upper-Pi} we have $(-)^N = \oR^*\neg$ and $(-)^\Pi = R_!$, giving 
+    \[(-)^N = \oR^*\neg = \neg R_!\neg = \neg (-)^\Pi\neg,\]
+    finishing the proof. 
+\end{proof}
+
+The following reproves \citeme. The proof uses some simple calculus of limits and colimits, which one needs to keep straight as there are a lot of opposite categories. 
+%5.1 https://www.irit.fr/~Didier.Dubois/Papers0804/DDSCP_FI07.pdf 
+
+\begin{proposition}[\citeme]
+    Let $(G,M,R)$ be a formal context. For all subsets $A_1, A_2$ of $G$, we have: 
+    \begin{enumerate}
+        \item $(A_1\cup A_2)^\Delta = A_1^\Delta \cap A_2^\Delta$,
+        \item $(A_1\cap A_2)^N = A_1^N \cap A_2^N$,
+        \item $(A_1\cup A_2)^\Pi = A_1^\Pi \cup A_2^\Pi$, and
+        \item $(A_1\cap A_2)^\nabla = A_1^\nabla \cup A_2^\nabla$.
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    We prove these one by one in the order presented. 
+    \begin{enumerate}
+        \item As $(-)^\Delta\: [G\op, \2]\to [M,\2]\op$ is a left adjoint it preserves colimits, which in $[G\op,\2]$ are unions and in $[M,\2]\op$ are intersections. 
+        \item The functor $(-)^N = \oR^*\neg$ is the dual of a left adjoint. As $\neg\: [G\op, \2]\to [G\op, \2]\op$ is an involution, it preserves both limits and colimits. Hence, intersections, which are limits in $[G\op, \2]$, are sent to colimits in $[M,\2]\op$, which are also intersections.
+        \item Follows from (2) and the De Morgan duality of \cref{lm:De-Morgan-duality}.
+        \item Follows from (1) and \cref{lm:De-Morgan-duality}. 
+    \end{enumerate}
+\end{proof}
+
+Similarly, we get the usual inclusion properties of these operators from simple categorical observations. 
+
+\begin{proposition}
+    \label{prop:closure-interior}
+    Let $(G,M,R)$ be a formal context. For all subsets $A$ of $G$, we have: 
+    \begin{enumerate}
+        \item $A\subseteq A^\Delta_\Delta$
+        \item $A\subseteq A^\Pi_N$
+        \item $A^N_\Pi \subseteq A$
+        \item $A^\nabla_\nabla \subseteq A$
+    \end{enumerate}
+\end{proposition}
+\begin{proof}
+    Again we prove these in the order presented. 
+    \begin{enumerate}
+        \item Follows immediately from the unit of the adjunction $\Id \to (-)_\Delta\circ (-)^\Delta$. 
+        \item Same as (1), it follows from the adjunction unit of $(-)^\Pi \dashv (-)_N$. 
+        \item We have $A^N_\Pi = \neg \oR_* \oR^*(A)\neg$, hence this also follows from the adjunction unit of $\oR^*\dashv \oR_*$ via the involution $\neg$. 
+        \item Similar to (3), this follows from the adjunction unit or $\oR_!\dashv \oR^!$. 
+    \end{enumerate}
+\end{proof}
+
+
  
 
 
