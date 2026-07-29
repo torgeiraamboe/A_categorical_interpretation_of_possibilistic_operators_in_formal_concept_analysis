@@ -1,6 +1,6 @@
 \section{Compositions and closures}
 
-We have now constructed the eight possibilistic operators in formal concept analysis, as studied in \cite{dubois-dupin-prade_2007, dubois-prade_2009}, by standard categorical constructions associated to the underlying boolean profunctor $R\: G \nrightarrow G$. It remains then, to study the different possible compositions of upper-case and lower-case possibilistic operators. 
+We have now constructed the eight possibilistic operators in formal concept analysis, as studied in \cite{dubois-dupin-prade_2007, dubois-prade_2009}, by standard categorical constructions associated to the underlying boolean profunctor $R\: G \nrightarrow G$. It remains to study the different possible compositions of upper-case and lower-case possibilistic operators. 
 
 Given our eight operators, there are $16$ possible compositions that produce an endofunctor on $[G\op, \2]$. As we only consider endofunctors on $[G\op, \2]$ -- the ones on $[M,\2]\op$ are completely analogous -- we will use the combined notation $(-)_\sigma (-)^\rho := (-)^\sigma_\rho$ for simplicity. We then get the following table of compositions:
 
@@ -52,7 +52,7 @@ The standard FCA operator $(-)^\Delta_\Delta$ is a so-called closure operator, d
 
 The FCA adjunction coming from a formal context $(G,M,R)$ satisfies all three of these: by \cite[2.1.11]{jarvis_2025}, the monad $R_*R^*$ is idempotent, and the two other properties follow formally by the adjunction unit and the fact that it is a functor on posets. Thus, on a poset, any monadic functor determines a closure operator, and conversely, any closure operator is the monad of an adjunction -- see \cite[Chapter 7]{davey-priestley_2002} for details. 
 
-In order to be recognized as a closure operator on \emph{some} formal context, these three axioms, then, have to be fulfilled. Otherwise the resulting fixedpoints have no chance of being formal concepts, or concepts of any type. In light of this discussion, the following proposition is rather trivial, but we state it for reference later.
+Consequently, in order to be recognized as a closure operator on \emph{some} formal context, these three axioms have to be fulfilled. Otherwise the resulting fixedpoints have no chance of being formal concepts, or concepts of any type. In light of this discussion, the following proposition is rather trivial, but we state it for reference later.
 
 \begin{proposition}
     \label{prop:axioms_for_closure}
@@ -76,24 +76,24 @@ We can now classify exactly which binary compositions of the eight operators tha
 \begin{proof}
     The monads of the adjunctions $(-)^\Delta \dashv (-)_\Delta$ and $(-)^\Pi \dashv (-)_N$, i.e., the operators $(-)^\Delta_\Delta$ and $(-)^\Pi_N$ are both closure operators by \cite[2.1.11]{jarvis_2025}. Similarly, due to the reversal of the adjunctions, $(-)^\Pi_N$ and $(-)^\nabla_\nabla$ are interior operators -- not closure operators. Hence, we only need to check the remaining $12$ cases. We check these by counterexamples, using \cref{prop:axioms_for_closure} to test whether $F$ satisfies the properties. In fact, it will be enough to test whether $F$ is extensive. 
 
-    First, let $G=\{a,b\}$, $M=\{x,y\}$ and $R$ given by $aRx, bRy$. Chose the subset $A=G$. Then we have $A^\Delta = \varnothing$, $A^\Pi = \{x,y\}$, $A^N=\varnothing$ and $A^\nabla = \varnothing$. In this example, both $A^\Delta_\Pi = \varnothing$ and $A^\Delta_N = \varnothing$, showing that neither operators $(-)^\Delta_\Pi$ or $(-)^\Delta_N$ are closure operators. Similarly, we get $A^\Pi_\Delta = \varnothing$, $A^\Pi_\nabla=\varnothing$, $A^N_\Delta = \varnothing$, $A^N_\nabla = \varnothing$, $A^\Delta_\Pi = \varnothing$ and $A^\nabla_N = \varnothing$, showing that none of these can be closure operators as well. 
+    First, let $G=\{a,b\}$, $M=\{x,y\}$ and $R$ given by $aRx, bRy$. Chose the subset $A=G$. Then we have $A^\Delta = \varnothing$, $A^\Pi = \{x,y\}$, $A^N=  \{x,y\}$ and $A^\nabla = \varnothing$. In this example, both $A^\Delta_\Pi = \varnothing$ and $A^\Delta_N = \varnothing$, showing that neither operators $(-)^\Delta_\Pi$ or $(-)^\Delta_N$ are closure operators. Similarly, we get $A^\Pi_\Delta = \varnothing$, $A^\Pi_\nabla=\varnothing$, $A^N_\Delta = \varnothing$, $A^N_\nabla = \varnothing$, $A^\Delta_\Pi = \varnothing$ and $A^\nabla_N = \varnothing$, showing that none of these can be closure operators as well. 
 
-    It remains to show the same for $(-)^\Pi_\Pi$, $(-)^\Delta_\nabla$, $(-)^N_N$ and $(-)^\nabla_\Delta$. For the former two we use the formal context $G=\{a\}$, $M=\varnothing$ and $A=G$. This gives $A^\Pi_\Pi = \varnothing$ and $A^\Delta_\nabla = \varnothing$, showing neither is extensive and hence not a closure operator. Similarly, using $G=\{a\}$, $M=\{x\}$, $aRx$ and $A=G$ $A^\nabla_\Delta = \varnothing$. For the final operator, $(-)^N_N$ we use the context $G=\{a,b\}$, $M=\{x\}$, $aRx$, $bRx$ and $A=\{a\}$. This gives $A^N_N = \varnothing$, which also finishes the proof. 
+    It remains to show the same for $(-)^\Pi_\Pi$, $(-)^\Delta_\nabla$, $(-)^N_N$ and $(-)^\nabla_\Delta$. For the former two we, use the formal context $G=\{a\}$, $M=\varnothing$ and $A=G$. This gives $A^\Pi_\Pi = \varnothing$ and $A^\Delta_\nabla = \varnothing$, showing neither is extensive and hence not a closure operator. Similarly, using $G=\{a\}$, $M=\{x\}$, $aRx$ and $A=G$ $A^\nabla_\Delta = \varnothing$. For the final operator, $(-)^N_N$ we use the context $G=\{a,b\}$, $M=\{x\}$, $aRx$, $bRx$ and $A=\{a\}$. This gives $A^N_N = \varnothing$, which also finishes the proof. 
 \end{proof}
 
 \subsection{Other closure operations}
 
-We round off this section by using the categorical machinery to identify a sequence of new types of concepts, or pairs, that naturally arise from the framework. These come from the following observation: Given two adjunctions 
+We round off this section by using the categorical machinery to identify a sequence of new types of concepts, or pairs, that naturally arise from the framework. We do not intend to study these in detail here, but leave this for future work. Now, given two adjunctions 
 \begin{center}
 \begin{tikzcd}
     \C \arrow[r, yshift=2pt, "F_1"] & \D \arrow[r, yshift=2pt, "F_2"] \arrow[l, yshift=-2pt, "G_1"] & \E \arrow[l,yshift=-2pt, "G_2"]
 \end{tikzcd}
 \end{center}
-the composed functor $F_2 F_1$ is a left adjoint to $G_2 G_1$. Recall from \cref{prop:axioms_for_closure} that on complete lattices, closure operators are equivalent to monads. This gives the following result. 
+the composed functor $F_2 F_1$ is a left adjoint to $G_2 G_1$. Recall from \cref{prop:axioms_for_closure} that on complete lattices, closure operators are equivalent to idempotent monads. This gives the following result. 
 
-\begin{theorem}
+\begin{proposition}
     The functors $(-)^\Delta$ and $(-)^\Pi$ on $P(G)$, and  similarly $(-)_\Pi$ and $(-)_\nabla$ on $P(M)\op$ are left adjoints. Any composition of these will produce a closure operator on $P(G)$ by composing with the corresponding right adjoint. 
-\end{theorem}
+\end{proposition}
 
 \begin{example}
     \label{ex:new-operator}
@@ -103,7 +103,7 @@ the composed functor $F_2 F_1$ is a left adjoint to $G_2 G_1$. Recall from \cref
 \end{example}
 
 \begin{proposition}
-    If $C$ is the closure operator defined in \cref{ex:new-operator}, then there is no formal context $(G,M,S)$ such that $C = (-)_{\Delta_S}(-)^{\Delta_S}$. 
+    If $C$ is the closure operator defined in \cref{ex:new-operator}, then there is no formal context $(G',M',R')$ such that $C = (-)_{\Delta_{R'}}(-)^{\Delta_{R'}}$. 
 \end{proposition}
 \begin{proof}
     Any FCA closure operator can be computed poitwise via $A^\Delta_\Delta = \bigcap_{g\in A}g^\Delta_\Delta$. The operator $C$ does not always satisfy this property, as we can see by the counterexample $G=\{a,b\}$, $M=\{x,y\}$ with $aRy$, $bRx$. Here $C(G)=G$, while $C(\{a\})\cap C(\{b\})=\varnothing$. 
